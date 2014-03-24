@@ -218,7 +218,9 @@ class Listener implements EventSubscriber
             $this->objectPersister->insertMany($this->scheduledForInsertion);
         }
         if (count($this->scheduledForUpdate)) {
-            $this->objectPersister->replaceMany($this->scheduledForUpdate);
+            foreach ($this->scheduledForUpdate as $entity) {
+                $this->objectPersister->replaceOne($entity);
+            }
         }
         if (count($this->scheduledForDeletion)) {
             $this->objectPersister->deleteMany($this->scheduledForDeletion);
